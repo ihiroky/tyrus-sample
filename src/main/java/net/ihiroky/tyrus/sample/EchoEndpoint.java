@@ -20,17 +20,17 @@ public class EchoEndpoint {
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) throws IOException {
-        System.out.println("onOpen: " + session);
+        System.out.println("onOpen: " + session + ", config:" + config);
     }
 
     @OnClose
     public void onClose(Session session, CloseReason reason) throws IOException {
-        System.out.println("onClose: " + session + ", " + reason);
+        System.out.println("onClose: " + session + ", reason:" + reason);
     }
 
     @OnMessage
     public void onMessage(Session session, String message) {
-        System.out.println("onMessage: " + session + ", " + message);
+        System.out.println("onMessage: " + session + ", message: " + message);
         for (Session s : session.getOpenSessions()) {
             s.getAsyncRemote().sendText(message);
         }
@@ -38,6 +38,6 @@ public class EchoEndpoint {
 
     @OnError
     public void onError(Session session, Throwable t) {
-        System.out.println("onError: " + session + ", " + t);
+        System.out.println("onError: " + session + ", throwable:" + t);
     }
 }
