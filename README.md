@@ -1,4 +1,4 @@
 tyrus-sample
 ============
 
-sample code of tyrus
+Sample code of Tyrus (https://tyrus.java.net/)
