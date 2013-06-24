@@ -1,0 +1,29 @@
+apply plugin:'java'
+apply plugin:'idea'
+
+defaultTasks 'clean', 'build'
+
+version = '0.0'
+def jdkVersion = 1.7
+project.ext['rootPackage'] = 'net.ihiroky.tyrus.sample'
+project.ext['encoding'] = 'UTF-8'
+
+jar.baseName = 'tyrus-sample'
+sourceCompatibility = jdkVersion
+targetCompatibility = jdkVersion
+[compileJava, compileTestJava].each {
+    it.options.encoding = encoding
+}
+compileJava.options.compilerArgs = ['-Xlint:all']
+compileJava.options.debugOptions.debugLevel     = "source,lines,vars"
+compileTestJava.options.debugOptions.debugLevel = "source,lines,vars"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.glassfish.tyrus:tyrus-server:1.0'
+    compile 'org.glassfish.tyrus:tyrus-client:1.0'
+    compile 'org.glassfish.tyrus:tyrus-container-grizzly:1.0'
+}

@@ -1,0 +1,60 @@
+<html>
+<head>
+    <title>hello websockets</title>
+</head>
+<body>
+<input id="open"  type="button" value="open"  onclick="wsOpen()"/>
+<input id="close" type="button" value="close" onclick="wsClose()"/>
+<br/>
+<input id="text"  type="text" onchange="wsSend(this)"/>
+<div id="msg"></div>
+<script type="text/javascript">
+    var webSocket_ = null;
+
+    var dump = function(obj) {
+      var properties = new Array();
+      for (var prop in obj){
+        properties.push(prop + '=' + obj[prop] + '\n');
+      }
+      console.log(properties.join(''));
+    };
+
+    var wsOpen = function() {
+      if (webSocket_) {
+        return;
+      }
+      webSocket_ = new WebSocket('ws://localhost:8025/websockets/echo');
+      webSocket_.onopen = function(e) {
+        dump(e);
+      };
+      webSocket_.onclose = function(e) {
+        dump(e);
+        webSocket_ = null;
+      }
+      webSocket_.onmessage = function(e) {
+        dump(e);
+        var msg = document.getElementById('msg');
+        msg.innerHTML = e.data + '<br/>' + msg.innerHTML;
+      };
+      webSocket_.onerror = function(e) {
+        dump(e);
+        webSocket_ = null;
+      }
+    };
+
+    var wsClose = function() {
+      if (webSocket_) {
+        webSocket_.close(1000, 'Closed by user.');
+        webSocket_ = null;
+      }
+    };
+
+    var wsSend = function(t) {
+      if (webSocket_) {
+        console.log('send message : ' + t.value);
+        webSocket_.send(t.value);
+      }
+    };
+</script>
+</body>
+</html>
